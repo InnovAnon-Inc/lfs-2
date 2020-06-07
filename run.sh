@@ -195,9 +195,10 @@ if [[ ! -e /tools.tar.lrz.zpaq ]] ; then
   clean_user
 
   # create tools backup
-  ( trap 'rm -f tools.tar.lrz' 0
-    tar cf - "/tools" "$LFS/tools" | lrzip -n > tools.tar.lrz
-    zpaq c /tools.tar.lrz.zpaq tools.tar.lrz )
+  #( trap 'rm -f tools.tar.lrz' 0
+  #  tar cf - "/tools" "$LFS/tools" | lrzip -n > tools.tar.lrz
+  #  zpaq c /tools.tar.lrz.zpaq tools.tar.lrz )
+  tar cf /tools.tar.lrz.zpaq -I 'lrzip -U -n -z' "/tools" "$LFS/tools"
 
   #( GLOBIGNORE="$LFS/sources"
   #rm -rf "$LFS"/* )
@@ -207,9 +208,10 @@ if [[ ! -e /tools.tar.lrz.zpaq ]] ; then
 fi
 
 # extract tools backup
-( trap 'rm -f tools.tar.lrz' 0
-  zpaq x /tools.tar.lrz.zpaq
-  lrzip -d < tools.tar.lrz | tar xf - -C / )
+#( trap 'rm -f tools.tar.lrz' 0
+#  zpaq x /tools.tar.lrz.zpaq
+#  lrzip -d < tools.tar.lrz | tar xf - -C / )
+tar xf /tools.tar.lrz.zpaq -I 'lrzip -U -n -z' -C /
 
 function create_builddir {
   mkdir -v "$LFS/build"
