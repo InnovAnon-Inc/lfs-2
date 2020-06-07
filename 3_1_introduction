@@ -1,0 +1,32 @@
+# sanity check
+echo "$LFS" | grep /mnt/lfs
+
+[[ -d $LFS/sources ]] ||
+mkdir -v $LFS/sources
+
+#chmod -v a+wt $LFS/sources
+
+#wget --continue --directory-prefix=$LFS/sources \
+#   http://linuxfromscratch.org/lfs/view/stable/{wget-list,md5sums}
+for line in wget-list md5sums ; do
+  [[ -e "$LFS/sources/wget-list" ]] ||
+  wget --directory-prefix=$LFS/sources \
+    http://linuxfromscratch.org/lfs/view/stable/$line
+done
+
+while read -r line ; do
+  [[ -e "$LFS/sources/$(basename $line)" ]] ||
+  wget --directory-prefix=$LFS/sources "$line"
+done < $LFS/sources/wget-list
+
+if (( "$TEST" )) ; then
+  # TODO create a download loop for when this fails
+  pushd $LFS/sources
+  md5sum -c md5sums
+  popd
+fi
+
+# protection
+chmod -R 0444 $LFS/sources
+chmod    0555 $LFS/sources
+

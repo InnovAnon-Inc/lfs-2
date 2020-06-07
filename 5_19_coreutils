@@ -1,0 +1,9 @@
+./configure --prefix=/tools --enable-install-program=hostname
+
+make
+
+(( ! "$TEST" )) ||
+make RUN_EXPENSIVE_TESTS=yes check
+
+make install
+

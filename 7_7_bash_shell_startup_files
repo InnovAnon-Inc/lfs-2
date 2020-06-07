@@ -1,0 +1,17 @@
+locale -a | grep C.UTF-8
+
+for k in language charmap int_curr_symbol int_prefix ; do
+  LC_ALL=C.UTF-8 locale $k
+done
+
+
+
+# TODO
+cat > /etc/profile << "EOF"
+# Begin /etc/profile
+
+export LANG=C.UTF-8
+
+# End /etc/profile
+EOF
+

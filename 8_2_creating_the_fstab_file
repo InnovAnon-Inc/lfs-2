@@ -1,0 +1,41 @@
+if [[ "`hdparm -I /dev/sda | grep NCQ`" ]] ; then
+  BARRIER=,barrier=1
+else
+  BARRIER=
+fi
+
+# TODO need a root partition!!!
+cat > /etc/fstab << EOF
+# Begin /etc/fstab
+
+# file system  mount-point  type     options             dump  fsck
+#                                                              order
+
+# / was on /dev/sda6 during installation
+#UUID=f9f14c89-76c9-4a2b-a7c0-c25d7b8a7ab1 /               ext4    errors=remount-ro 0       1
+#/dev/<xxx>     /            <fff>    defaults            1     1
+
+# /dev/sda2
+UUID=5722454d-4a9e-4be1-afca-31b74808cdd3 none            swap    sw                0       0
+#/swapfile                                 none            swap    sw                0       0
+#/dev/<yyy>     swap         swap     pri=1               0     0
+
+proc           /proc        proc     nosuid,noexec,nodev 0     0
+sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
+devpts         /dev/pts     devpts   gid=5,mode=620      0     0
+tmpfs          /run         tmpfs    defaults            0     0
+devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
+
+# /dev/sda5
+UUID=6fc692fb-65a2-4b5b-9637-85c61fdc22b7 /mnt/sda5       ext4    rw,relatime$BARRIER       0       0
+/mnt/sda5/var/lib/docker                  /var/lib/docker none    bind
+
+# /dev/sda1
+UUID=78877FCD3E12283B                     /mnt/sda1       ntfs-3g defaults,nls=utf8,umask=000,dmask=027,fmask=137,uid=1000,gid=1000,windows_names 0 0 
+
+# TODO ACHTUNG! this is sensitive information
+//70.120.203.166/share4us                 /mnt/seanrdev   cifs    username=seanrdev,password=innovanongods,port=54001,seal,uid=1000,gid=1000 0 0
+
+# End /etc/fstab
+EOF
+

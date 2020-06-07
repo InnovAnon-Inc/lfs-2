@@ -1,0 +1,21 @@
+echo 9.1 > /etc/lfs-release
+
+
+
+cat > /etc/lsb-release << "EOF"
+DISTRIB_ID="Linux From Scratch"
+DISTRIB_RELEASE="9.1"
+DISTRIB_CODENAME="InnovAnon-Inc"
+DISTRIB_DESCRIPTION="Linux From Scratch"
+EOF
+
+
+
+cat > /etc/os-release << "EOF"
+NAME="Linux From Scratch"
+VERSION="9.1"
+ID=lfs
+PRETTY_NAME="Linux From Scratch 9.1"
+VERSION_CODENAME="InnovAnon-Inc"
+EOF
+

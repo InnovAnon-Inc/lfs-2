@@ -1,0 +1,14 @@
+./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.1
+
+make
+
+if (( "$TEST" )) ; then
+  if [[ "$MAKEFLAGS" ]] && (( "$(nproc)" > 4 )) ; then
+    make check
+  else
+    make -j4 check
+  fi
+fi
+
+make install
+

@@ -1,0 +1,9 @@
+./configure --prefix=/usr --disable-static --with-gcc-arch=native
+
+make
+
+(( ! "$TEST" )) ||
+make check
+
+make install
+

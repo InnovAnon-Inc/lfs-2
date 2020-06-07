@@ -1,0 +1,42 @@
+# this shit has got to stop
+set -euxo pipefail
+
+# sanity check
+echo $LFS | grep /mnt/lfs
+
+# we could do:
+# which sh   | grep bash
+# which awk  | grep gawk
+# which yacc | grep bison
+# but this is shitty ubuntu
+
+# TODO an easy way to make sure that sources are in /mnt/lfs/sources
+
+# check usage
+(( ! $# ))
+[[ "${PKG-}" ]]
+[[ "${DIR-}" ]] ||
+DIR="${PKG%.tar.*}"
+#if [[ -z "${DIR-}" ]] ; then
+#  DIR="${PKG%.tar.*}"
+#  DIR="${DIR,,}"
+#fi
+
+# sanity check
+echo "$PKG" | grep -e "$DIR"
+
+# for the $SHELL
+#export PKG="$LFS/sources/$PKG"
+export PKG="$LFS/build/$PKG"
+export DIR="$LFS/build/$DIR"
+
+# sanity check
+echo "$PKG" | grep '.tar'
+
+cd $LFS/build
+trap "chmod -R 0777 '$DIR' ; rm -rf '$DIR'" 0
+( tar xf "$PKG"
+  cd "$DIR"
+  $SHELL -euxo pipefail )
+#exit "$?"
+

@@ -1,0 +1,9 @@
+./configure --prefix=/usr
+
+make
+
+(( ! "$TEST" )) ||
+make check
+
+make install
+

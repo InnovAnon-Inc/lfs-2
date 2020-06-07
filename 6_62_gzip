@@ -1,0 +1,11 @@
+./configure --prefix=/usr
+
+make
+
+(( ! "$TEST" )) ||
+make check
+
+make install
+
+mv -v /usr/bin/gzip /bin
+

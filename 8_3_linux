@@ -1,0 +1,36 @@
+make mrproper
+
+make defconfig
+
+# TODO this might not work
+make menuconfig
+
+make
+
+make modules_install
+
+#mount --bind /boot /mnt/lfs/boot
+
+cp -iv arch/x86/boot/bzImage /boot/vmlinuz-5.5.3-lfs-9.1
+
+cp -iv System.map /boot/System.map-5.5.3
+
+cp -iv .config /boot/config-5.5.3
+
+install -d /usr/share/doc/linux-5.5.3
+cp -r Documentation/* /usr/share/doc/linux-5.5.3
+
+# TODO consider retaining source
+
+
+
+install -v -m755 -d /etc/modprobe.d
+cat > /etc/modprobe.d/usb.conf << "EOF"
+# Begin /etc/modprobe.d/usb.conf
+
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+
+# End /etc/modprobe.d/usb.conf
+EOF
+

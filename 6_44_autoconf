@@ -1,0 +1,11 @@
+sed '361 s/{/\\{/' -i bin/autoscan.in
+
+./configure --prefix=/usr
+
+make
+
+(( ! "$TEST" )) ||
+make check
+
+make install
+

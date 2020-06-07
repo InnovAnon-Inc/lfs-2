@@ -1,0 +1,9 @@
+./configure --prefix=/tools
+
+make
+
+(( ! "$TEST" )) ||
+make check
+
+make install
+

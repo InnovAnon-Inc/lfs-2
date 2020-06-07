@@ -1,0 +1,9 @@
+perl Makefil.PL
+
+make
+
+(( ! "$TEST" )) ||
+make test
+
+make install
+

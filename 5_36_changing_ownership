@@ -1,0 +1,4 @@
+whoami | grep root
+
+chown -R root:root $LFS/tools
+
